@@ -1,142 +1,141 @@
-export function HeroPage({ onShowBracket }: { onShowBracket: () => void }) {
+import bgImg from "@assets/1background_1774702840993.png";
+import logoImg from "@assets/logo-white_1774702870767.png";
+import toiLogoImg from "@assets/toi-logo-red-back_1774702845298.png";
+import wingImg from "@assets/wing_1774702849653.png";
+import decorImg from "@assets/side-decor_1774702857131.png";
+
+export function HeroPage() {
   return (
     <div
-      className="relative w-full h-screen overflow-hidden"
-      style={{ minWidth: "1200px" }}
+      className="relative w-full overflow-hidden"
+      style={{ height: "calc(100vh - 60px)", minWidth: 1100 }}
     >
+      {/* Фон */}
       <img
-        src="/1background.png"
+        src={bgImg}
         className="absolute top-0 left-0 w-full h-full object-cover z-0 pointer-events-none"
+        style={{ opacity: 0.55, filter: "grayscale(20%)" }}
       />
 
+      {/* Декор по бокам */}
       <img
-        className="absolute top-0 left-0 w-[460px] z-10 pointer-events-none"
-        src="/side-decor.png"
+        src={decorImg}
+        className="absolute top-0 left-0 z-10 pointer-events-none"
+        style={{ width: 200, opacity: 0.7 }}
       />
       <img
-        className="absolute top-0 right-0 w-[460px] z-10 pointer-events-none"
-        style={{ transform: "scaleX(-1)" }}
-        src="/side-decor.png"
+        src={decorImg}
+        className="absolute top-0 right-0 z-10 pointer-events-none"
+        style={{ width: 200, opacity: 0.7, transform: "scaleX(-1)" }}
       />
 
-      <div className="relative z-20 flex flex-col items-center justify-center h-full">
-        <div className="relative w-[700px] h-[420px] flex items-center justify-center">
-          <div
-            className="absolute top-[60px] w-[140px] h-[190px]"
+      {/* Центральный контент */}
+      <div className="relative z-20 flex flex-col items-center justify-center h-full" style={{ gap: 0 }}>
+
+        {/* Крылья + логотип */}
+        <div className="relative flex items-center justify-center" style={{ width: 600, height: 280 }}>
+          {/* Левое крыло (отзеркалено) */}
+          <img
+            src={wingImg}
             style={{
-              right: "calc(50% + 90px)",
-              background: "url(/wing.png) 100% 100% / 100% 100% no-repeat",
-              transform: "scale(1.5)",
-              transformOrigin: "right center",
+              position: "absolute",
+              left: 20,
+              top: 40,
+              width: 160,
+              transform: "scaleX(-1)",
+              opacity: 0.9,
             }}
           />
-          <div
-            className="absolute top-[60px] w-[140px] h-[190px]"
+          {/* Правое крыло */}
+          <img
+            src={wingImg}
             style={{
-              left: "calc(50% + 90px)",
-              background: "url(/wing1.png) 100% 100% / 100% 100% no-repeat",
-              transform: "scale(1.5)",
-              transformOrigin: "left center",
+              position: "absolute",
+              right: 20,
+              top: 40,
+              width: 160,
+              opacity: 0.9,
             }}
           />
-          <div
-            className="absolute top-0 left-1/2 w-[700px] h-[420px]"
+          {/* Центральный логотип ToI */}
+          <img
+            src={toiLogoImg}
             style={{
-              transform: "translateX(-50%) scale(1.5)",
-              background: "url(/toIlogo.png) center / contain no-repeat",
+              width: 340,
+              position: "relative",
+              zIndex: 2,
+              filter: "drop-shadow(0 0 30px rgba(200,0,0,0.5))",
             }}
           />
         </div>
 
-        <div className="flex items-center justify-center gap-16 mt-[-40px]">
-          <div className="flex flex-col items-center gap-0">
-            <span
-              className="text-white/40 text-[10px] tracking-[0.3px]"
-              style={{ fontFamily: "'Cinzel', serif" }}
-            >
-              КОМАНДЫ
-            </span>
-            <span
-              className="text-[#d3d3d3] text-[32px] leading-[40px]"
-              style={{
-                fontFamily: "'Antic Didone', serif",
-                filter: "drop-shadow(0 0 21px #d3d3d3)",
-              }}
-            >
-              32
-            </span>
-          </div>
+        {/* Разделитель */}
+        <div style={{ width: 500, height: 1, background: "rgba(180,0,0,0.5)", margin: "4px 0" }} />
+        <div style={{ width: 500, height: 1, background: "rgba(180,0,0,0.25)", marginBottom: 28 }} />
 
-          <div className="flex flex-col items-center gap-0">
-            <span
-              className="text-white/40 text-[10px] tracking-[0.3px]"
-              style={{ fontFamily: "'Cinzel', serif" }}
-            >
-              ПРИЗОВОЙ ФОНД
-            </span>
-            <div className="flex items-baseline">
-              <span
-                className="text-[#d3d3d3] text-[40px] tracking-[1.2px] leading-[40px]"
-                style={{
-                  fontFamily: "'Antic Didone', serif",
-                  filter: "drop-shadow(0 0 13px #d3d3d3)",
-                }}
-              >
-                12000
-              </span>
-              <span
-                className="text-[#d3d3d3] text-[15px] ml-1"
-                style={{ fontFamily: "'Cinzel', serif" }}
-              >
-                РУБ
-              </span>
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center">
-            <span
-              className="text-white/40 text-[10px] tracking-[0.3px]"
-              style={{ fontFamily: "'Cinzel', serif" }}
-            >
-              МАТЧЕЙ
-            </span>
-            <div className="flex items-baseline">
-              <span
-                className="text-[#d3d3d3] text-[40px] leading-[40px]"
-                style={{
-                  fontFamily: "'Antic Didone', serif",
-                  filter: "drop-shadow(0 0 21px #d3d3d3)",
-                }}
-              >
-                62
-              </span>
-              <span
-                className="text-[#d3d3d3] text-[14px] ml-1"
-                style={{ fontFamily: "'Cinzel', serif" }}
-              >
-                +1
-              </span>
-            </div>
-          </div>
+        {/* Статистика */}
+        <div className="flex items-center justify-center" style={{ gap: 56 }}>
+          <StatItem label="КОМАНДЫ" value="32" />
+          <StatItem label="ПРИЗОВОЙ ФОНД" value="12000" suffix="РУБ" large />
+          <StatItem label="МАТЧЕЙ" value="62" suffix="+1" />
         </div>
 
-        <div className="mt-8">
+        {/* Кнопка УЧАСТВОВАТЬ */}
+        <div style={{ marginTop: 28 }}>
           <a
             href="https://vk.com/immortal_trial"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-red-500 text-[85px] leading-none cursor-pointer select-none"
-            style={{ fontFamily: "'Cinzel Decorative', cursive" }}
+            style={{
+              display: "block",
+              fontSize: 72,
+              fontFamily: "'Cinzel Decorative', 'Cinzel', cursive",
+              color: "#cc1100",
+              textDecoration: "none",
+              letterSpacing: "4px",
+              lineHeight: 1,
+              textShadow: "0 0 40px rgba(220,0,0,0.4)",
+            }}
           >
             УЧАСТВОВАТЬ
           </a>
         </div>
 
-        <div className="mt-5">
-          <span className="text-[#a7a7a7] text-[20px] tracking-[0.9px]">
+        {/* Subtitle */}
+        <div style={{ marginTop: 14 }}>
+          <span style={{ color: "#888", fontSize: 16, letterSpacing: "3px", fontFamily: "monospace" }}>
             Докажи своё превосходство
           </span>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function StatItem({
+  label, value, suffix, large,
+}: { label: string; value: string; suffix?: string; large?: boolean }) {
+  return (
+    <div className="flex flex-col items-center" style={{ gap: 2 }}>
+      <span style={{ color: "rgba(255,255,255,0.35)", fontSize: 9, letterSpacing: "2px", fontFamily: "monospace" }}>
+        {label}
+      </span>
+      <div className="flex items-baseline" style={{ gap: 4 }}>
+        <span style={{
+          color: "#d3d3d3",
+          fontSize: large ? 38 : 30,
+          fontFamily: "'Cinzel', 'Georgia', serif",
+          textShadow: "0 0 20px rgba(211,211,211,0.5)",
+          lineHeight: 1,
+          fontWeight: 700,
+        }}>
+          {value}
+        </span>
+        {suffix && (
+          <span style={{ color: "#d3d3d3", fontSize: 12, fontFamily: "monospace", opacity: 0.8 }}>
+            {suffix}
+          </span>
+        )}
       </div>
     </div>
   );
