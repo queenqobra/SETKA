@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Immortal Trial"
+version = "1.0.0"
+id = "artifacts/immortal-trial"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23710
+
+[services.development]
+run = "pnpm --filter @workspace/immortal-trial run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/immortal-trial", "run", "build" ]
+publicDir = "artifacts/immortal-trial/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23710"
+BASE_PATH = "/"
