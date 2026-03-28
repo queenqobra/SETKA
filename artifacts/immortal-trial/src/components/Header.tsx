@@ -13,34 +13,29 @@ export function Header({ onShowBracket, onShowHero, page }: HeaderProps) {
       style={{ minWidth: 1100 }}
     >
       <div
-        className="flex items-center justify-center relative"
+        className="relative flex items-center justify-between"
         style={{
           height: 56,
           background: "linear-gradient(90deg, #000 0%, #2d0000 49%, #000 97%)",
           boxShadow: "0 4px 20px rgba(0,0,0,0.8)",
+          paddingLeft: 80,
+          paddingRight: 80,
         }}
       >
-        {/* Nav buttons */}
-        <div className="flex items-center" style={{ gap: 80 }}>
-          <NavBtn label="О ТУРНИРЕ" active={page === "hero"} onClick={onShowHero} />
-          <NavBtn label="СЕТКА" active={page === "bracket"} onClick={onShowBracket} />
-        </div>
-      </div>
+        {/* Левая кнопка */}
+        <NavBtn label="ОБЗОР" active={page === "hero"} onClick={onShowHero} />
 
-      {/* Логотип по центру, перекрывает хедер снизу */}
-      <div
-        className="absolute left-1/2 pointer-events-none"
-        style={{
-          top: 56,
-          transform: "translate(-50%, -50%)",
-          zIndex: 60,
-        }}
-      >
-        <img
-          src={logoImg}
-          style={{ width: 180, height: "auto", opacity: 0.9 }}
-          alt="Logo"
-        />
+        {/* Логотип по центру внутри хедера */}
+        <div className="absolute left-1/2 pointer-events-none" style={{ transform: "translateX(-50%)", top: 0 }}>
+          <img
+            src={logoImg}
+            style={{ width: 160, height: "auto", opacity: 0.9, marginTop: -8 }}
+            alt="Logo"
+          />
+        </div>
+
+        {/* Правая кнопка */}
+        <NavBtn label="СЕТКА" active={page === "bracket"} onClick={onShowBracket} />
       </div>
     </header>
   );
@@ -54,14 +49,14 @@ function NavBtn({ label, active, onClick }: { label: string; active: boolean; on
         background: "none",
         border: "none",
         cursor: "pointer",
-        fontFamily: "monospace",
-        fontSize: 13,
-        letterSpacing: "4px",
-        color: active ? "#fff" : "rgba(255,255,255,0.4)",
+        fontFamily: "'Literature', monospace",
+        fontSize: 14,
+        letterSpacing: "5px",
+        color: active ? "#fff" : "rgba(255,255,255,0.38)",
         fontWeight: 700,
-        padding: "4px 16px",
+        padding: "4px 20px",
         transition: "color 0.2s",
-        textShadow: active ? "0 0 12px rgba(255,255,255,0.4)" : "none",
+        textShadow: active ? "0 0 14px rgba(255,255,255,0.5)" : "none",
       }}
     >
       {label}

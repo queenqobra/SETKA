@@ -1,5 +1,27 @@
 @import "tailwindcss";
 
+/* ===== ШРИФТЫ ===== */
+@font-face {
+  font-family: 'Kudry';
+  src: url('@assets/kudry_weird-headline_1774703405902.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Literature';
+  src: url('@assets/Literature-Decor_1774703410324.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'LaborUnion';
+  src: url('@assets/LaborUnion-Regular_1774703422836.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 @layer base {
   * {
     box-sizing: border-box;
@@ -11,7 +33,6 @@
     background: #000;
     color: #fff;
     height: 100%;
-    /* touch scrolling on mobile */
     -webkit-overflow-scrolling: touch;
     touch-action: pan-x pan-y;
   }
