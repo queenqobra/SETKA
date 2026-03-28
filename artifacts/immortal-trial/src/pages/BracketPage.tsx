@@ -14,11 +14,20 @@ const UPPER_R0: string[] = [
   "Snowfall",      "TBD",            "TBD",            "TBD",
   "TBD",           "TBD",            "TBD",            "TBD",
 ];
-const UPPER_R1: string[] = Array.from({ length: 16 }, () => "");
-const UPPER_R2: string[] = Array.from({ length: 8 }, () => "");
-const UPPER_R3: string[] = Array.from({ length: 4 }, () => "");
-const UPPER_R4: string[] = Array.from({ length: 2 }, () => "");
-const UPPER_R5: string[] = [""];
+const UPPER_R1: string[] = [
+  "TBD", "TBD", "TBD", "TBD", "TBD", "TBD", "TBD", "TBD",
+  "TBD", "TBD", "TBD", "TBD", "TBD", "TBD", "TBD", "TBD",
+];
+const UPPER_R2: string[] = [
+  "TBD", "TBD", "TBD", "TBD", "TBD", "TBD", "TBD", "TBD",
+];
+const UPPER_R3: string[] = [
+  "TBD", "TBD", "TBD", "TBD",
+];
+const UPPER_R4: string[] = [
+  "TBD", "TBD",
+];
+const UPPER_R5: string[] = ["TBD"];
 const UPPER_ALL = [UPPER_R0, UPPER_R1, UPPER_R2, UPPER_R3, UPPER_R4, UPPER_R5];
 
 // ===========================================================================================
