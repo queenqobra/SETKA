@@ -1,3 +1,4 @@
+import { useState } from "react";
 import bgImg from "@assets/1background_1774702840993.png";
 import toiLogoImg from "@assets/toi-logo-red-back_1774702845298.png";
 import wingImg from "@assets/wing_1774702849653.png";
@@ -16,30 +17,30 @@ export function HeroPage() {
         style={{ opacity: 0.55, filter: "grayscale(15%)" }}
       />
 
-      {/* Декор левый — растянут во всю высоту */}
+      {/* Декор левый */}
       <img
         src={decorImg}
         className="absolute top-0 left-0 z-10 pointer-events-none"
         style={{ height: "100%", width: "auto", opacity: 0.75 }}
       />
-      {/* Декор правый — зеркало, во всю высоту */}
+      {/* Декор правый */}
       <img
         src={decorImg}
         className="absolute top-0 right-0 z-10 pointer-events-none"
         style={{ height: "100%", width: "auto", opacity: 0.75, transform: "scaleX(-1)" }}
       />
 
-      {/* Основной контент — смещён вверх */}
+      {/* Основной контент */}
       <div
         className="relative z-20 flex flex-col items-center"
         style={{ paddingTop: "5vh" }}
       >
-        {/* Крылья + логотип — 2× крупнее, высоко */}
+        {/* Крылья + логотип */}
         <div
           className="relative flex items-center justify-center"
           style={{ width: 900, height: 460 }}
         >
-          {/* Левое крыло — оригинал (без зеркала) */}
+          {/* Левое крыло */}
           <img
             src={wingImg}
             style={{
@@ -50,7 +51,7 @@ export function HeroPage() {
               opacity: 0.95,
             }}
           />
-          {/* Правое крыло — зеркальное */}
+          {/* Правое крыло */}
           <img
             src={wingImg}
             style={{
@@ -62,7 +63,7 @@ export function HeroPage() {
               transform: "scaleX(-1)",
             }}
           />
-          {/* Центральный логотип ToI */}
+          {/* Логотип ToI */}
           <img
             src={toiLogoImg}
             style={{
@@ -87,23 +88,7 @@ export function HeroPage() {
 
         {/* УЧАСТВОВАТЬ */}
         <div style={{ marginTop: 24 }}>
-          <a
-            href="https://vk.com/immortal_trial"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: "block",
-              fontSize: 80,
-              fontFamily: "'Kudry', cursive",
-              color: "#cc1100",
-              textDecoration: "none",
-              letterSpacing: "3px",
-              lineHeight: 1,
-              textShadow: "0 0 40px rgba(220,0,0,0.35)",
-            }}
-          >
-            УЧАСТВОВАТЬ
-          </a>
+          <ParticipateLink />
         </div>
 
         {/* Subtitle */}
@@ -121,6 +106,38 @@ export function HeroPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+function ParticipateLink() {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <a
+      href="https://t.me/cultimm"
+      target="_blank"
+      rel="noopener noreferrer"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: "block",
+        fontSize: hovered ? 90 : 80,
+        fontFamily: "'Kudry', cursive",
+        textDecoration: "none",
+        letterSpacing: "3px",
+        lineHeight: 1,
+        background: "linear-gradient(90deg, #b30000 0%, #ff2200 40%, #ff6600 65%, #cc1100 100%)",
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+        backgroundClip: "text",
+        filter: hovered
+          ? "drop-shadow(0 0 18px rgba(255,60,0,0.55))"
+          : "drop-shadow(0 0 28px rgba(200,30,0,0.32))",
+        transition: "font-size 0.18s ease, filter 0.18s ease",
+        cursor: "pointer",
+      }}
+    >
+      УЧАСТВОВАТЬ
+    </a>
   );
 }
 
@@ -144,10 +161,10 @@ function StatItem({
           style={{
             color: "#d3d3d3",
             fontSize: large ? 42 : 34,
-            fontFamily: "'Cinzel', 'Georgia', serif",
+            fontFamily: "'AnticDidone', 'Georgia', serif",
             textShadow: "0 0 22px rgba(211,211,211,0.45)",
             lineHeight: 1,
-            fontWeight: 700,
+            fontWeight: 400,
           }}
         >
           {value}

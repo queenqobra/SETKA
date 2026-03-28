@@ -1,8 +1,10 @@
 import bgImg from "@assets/1background_1774702840993.png";
 import ankhImg from "@assets/immortalitylogobtw_1774703914132.png";
 
-// ===== НАЗВАНИЯ КОМАНД — ВЕРХНЯЯ СЕТКА (меняй здесь) =====
-const UPPER_TEAMS: string[] = [
+// ===========================================================================================
+// ВЕРХНЯЯ СЕТКА — КОМАНДЫ (меняй здесь)
+// ===========================================================================================
+const UPPER_R0: string[] = [
   "Rakuzan",       "SLAWAIZM",       "Gods Only",      "Turbo Warriors",
   "ADP Team",      "Nexus Team",     "Wirtus-Pro",     "genzero-",
   "Genialnost",    "kik069",         "wet womens",     "Keijo Team",
@@ -12,22 +14,50 @@ const UPPER_TEAMS: string[] = [
   "Snowfall",      "TBD",            "TBD",            "TBD",
   "TBD",           "TBD",            "TBD",            "TBD",
 ];
+const UPPER_R1: string[] = Array.from({ length: 16 }, () => "");
+const UPPER_R2: string[] = Array.from({ length: 8 }, () => "");
+const UPPER_R3: string[] = Array.from({ length: 4 }, () => "");
+const UPPER_R4: string[] = Array.from({ length: 2 }, () => "");
+const UPPER_R5: string[] = [""];
+const UPPER_ALL = [UPPER_R0, UPPER_R1, UPPER_R2, UPPER_R3, UPPER_R4, UPPER_R5];
 
-// ===== НАЗВАНИЯ КОМАНД — НИЖНЯЯ СЕТКА (16 команд слева) =====
-const LOWER_COL0_TEAMS: string[] = [
-  "LOSER A", "LOSER B", "LOSER C", "LOSER D",
-  "LOSER E", "LOSER F", "LOSER G", "LOSER H",
-  "LOSER I", "LOSER J", "LOSER K", "LOSER L",
-  "LOSER M", "LOSER N", "LOSER O", "LOSER P",
+// ===========================================================================================
+// НИЖНЯЯ СЕТКА — КОМАНДЫ (меняй здесь)
+// Col 0 — 16 проигравших из верхней (первый раунд)
+// Col 1 — 16 команд (8 новых проигравших сверху + 8 победителей)
+// ...и т.д.
+// ===========================================================================================
+const LOWER_COL: string[][] = [
+  // Колонка 0 — 16 проигравших из верхней сетки (раунд 1)
+  [
+    "LOSER A", "LOSER B", "LOSER C", "LOSER D",
+    "LOSER E", "LOSER F", "LOSER G", "LOSER H",
+    "LOSER I", "LOSER J", "LOSER K", "LOSER L",
+    "LOSER M", "LOSER N", "LOSER O", "LOSER P",
+  ],
+  // Колонка 1 — 16 команд (чётные = с верхней сетки, нечётные = победители кол.0)
+  Array.from({ length: 16 }, (_, i) => i % 2 === 0 ? `LOSER ${String.fromCharCode(65 + 16 + Math.floor(i / 2))}` : `W${Math.floor(i / 2) + 1}`),
+  // Колонка 2 — 8 команд
+  Array.from({ length: 8 }, (_, i) => `V${i + 1}`),
+  // Колонка 3 — 8 команд
+  Array.from({ length: 8 }, (_, i) => `U${i + 1}`),
+  // Колонка 4 — 4 команды
+  Array.from({ length: 4 }, (_, i) => `T${i + 1}`),
+  // Колонка 5 — 4 команды
+  Array.from({ length: 4 }, (_, i) => `S${i + 1}`),
+  // Колонка 6 — 2 команды
+  Array.from({ length: 2 }, (_, i) => `R${i + 1}`),
+  // Колонка 7 — 2 команды
+  Array.from({ length: 2 }, (_, i) => `Q${i + 1}`),
 ];
-const LOWER_COL1_TEAMS: string[] = Array.from({ length: 16 }, (_, i) => `W${i + 1}`);
+const LOWER_WINNER = "BOI";
 
 // ============ ВЕРХНЯЯ СЕТКА ============
-const UH = 14;    // высота ячейки
-const UGAP = 4;   // зазор
-const USLOT = UH + UGAP; // 18px на слот
-const UCOL = 140; // ширина колонки
-const UCELL = 124; // ширина ячейки
+const UH = 14;
+const UGAP = 4;
+const USLOT = UH + UGAP;
+const UCOL = 140;
+const UCELL = 124;
 const UCOUNTS = [32, 16, 8, 4, 2, 1];
 
 function uCenterY(round: number, idx: number) {
@@ -38,15 +68,15 @@ function uTopY(round: number, idx: number) {
   return uCenterY(round, idx) - UH / 2;
 }
 
-const U_TOTAL_H = USLOT * 32; // 576px
+const U_TOTAL_H = USLOT * 32;
 const U_TOTAL_W = UCOL * 6 + UCELL;
 
 function UpperBracketSVG() {
   const els: React.ReactNode[] = [];
   for (let r = 0; r < 5; r++) {
     const count = UCOUNTS[r];
-    const x1 = r * UCOL + UCELL;      // right edge of current col
-    const x2 = (r + 1) * UCOL;        // left edge of next col
+    const x1 = r * UCOL + UCELL;
+    const x2 = (r + 1) * UCOL;
     const mx = (x1 + x2) / 2;
     for (let i = 0; i < count; i += 2) {
       const cy1 = uCenterY(r, i);
@@ -83,7 +113,7 @@ function UpperBracket() {
               }}
             >
               <span className="text-black font-bold truncate" style={{ fontSize: 8.5, letterSpacing: "0.3px" }}>
-                {r === 0 ? UPPER_TEAMS[i] ?? "" : ""}
+                {UPPER_ALL[r]?.[i] ?? ""}
               </span>
             </div>
           ))}
@@ -93,66 +123,82 @@ function UpperBracket() {
   );
 }
 
-// ============ НИЖНЯЯ СЕТКА  16-16-8-8-4-4-2-2 ============
-// Структура: 4 пары колонок (A,B), (C,D), (E,F), (G,H)
-// Внутри пары команды играют друг против друга (горизонтальная линия)
-// Между парами: победители уходят в следующую пару (bracket-линия)
+// ============ НИЖНЯЯ СЕТКА ============
+// Структура: 8 колонок с кол-вом [16,16,8,8,4,4,2,2]
+// Пары колонок: (0,1), (2,3), (4,5), (6,7) — внутри каждой пары команды играют
+// А-колонки (0,2,4,6): принимают проигравших из верхней сетки
+// B-колонки (1,3,5,7): принимают победителей предыдущего раунда нижней
 
-const LH = 13;    // высота ячейки
-const LGAP = 5;   // зазор внутри пары
-const LCOL = 130; // ширина колонки
-const LCELL = 114; // ширина ячейки
-
-// Уровни пар: 0=16, 1=8, 2=4, 3=2
-// Слот на уровне L: LSLOT(0) = LH+LGAP = 18px → 16*18=288px тотал высота
-const LSLOT0 = LH + LGAP; // 18px
+const LH = 13;
+const LGAP = 5;
+const LCOL = 130;
+const LCELL = 114;
+const LSLOT0 = LH + LGAP;
 
 function lSlot(level: number) { return LSLOT0 * Math.pow(2, level); }
-
-// Центр ячейки: пара P (0-3), колонка внутри пары K (0 or 1), ячейка I
-// colIndex = P*2 + K
 function lCenterY(level: number, idx: number) {
   const slot = lSlot(level);
   return idx * slot + slot / 2;
 }
 function lTopY(level: number, idx: number) { return lCenterY(level, idx) - LH / 2; }
 
-// 8 колонок + победитель (ещё одна)
 const L_NCOLS = 8;
-const L_LEVELS = [0, 0, 1, 1, 2, 2, 3, 3]; // уровень каждой колонки
+const L_LEVELS = [0, 0, 1, 1, 2, 2, 3, 3];
 const L_COUNTS = [16, 16, 8, 8, 4, 4, 2, 2];
-const L_TOTAL_H = LSLOT0 * 16; // 288px
-const L_TOTAL_W = LCOL * 9 + LCELL; // 9 колонок + ячейка победителя
+const L_TOTAL_H = LSLOT0 * 16;
+const L_TOTAL_W = LCOL * 9 + LCELL;
+
+// Длина «падающей» линии вверх для команд из верхней сетки
+const DROP_LINE = 18;
 
 function LowerBracketSVG() {
   const els: React.ReactNode[] = [];
-  // 1) Горизонтальные линии внутри каждой пары (A→B, C→D, E→F, G→H)
+
+  // ── 1) Левые скобки на col 0: попарное разбиение (0,1),(2,3)...
+  //       показывает, что проигравшие пришли парами из верхней сетки
+  {
+    const count = L_COUNTS[0]; // 16
+    const leftX = -10;
+    for (let i = 0; i < count; i += 2) {
+      const cy1 = lCenterY(0, i);
+      const cy2 = lCenterY(0, i + 1);
+      els.push(
+        <g key={`col0-left-${i}`} stroke="rgba(220,38,38,0.5)" strokeWidth="1" fill="none">
+          <polyline points={`0,${cy1} ${leftX},${cy1} ${leftX},${cy2} 0,${cy2}`} />
+        </g>
+      );
+    }
+  }
+
+  // ── 2) Линии внутри каждой пары колонок (A-col[i] ↔ B-col[i])
   for (let p = 0; p < 4; p++) {
     const level = p;
     const colA = p * 2;
     const colB = p * 2 + 1;
     const count = L_COUNTS[colA];
-    const xA = colA * LCOL + LCELL; // правый край A
-    const xB = colB * LCOL;         // левый край B
-    const mx = (xA + xB) / 2;
+    const xA = colA * LCOL + LCELL;
+    const xB = colB * LCOL;
     for (let i = 0; i < count; i++) {
-      const cy = lCenterY(level, i);
+      const cyA = lCenterY(level, i);
+      const cyB = lCenterY(level, i);
+      // Горизонтальная линия: правая грань A-ячейки → левая грань B-ячейки
       els.push(
         <line key={`pair-${p}-${i}`}
-          x1={xA} y1={cy} x2={xB} y2={cy}
+          x1={xA} y1={cyA} x2={xB} y2={cyB}
           stroke="rgba(220,38,38,0.35)" strokeWidth="1" />
       );
     }
   }
-  // 2) Bracket-линии: B-колонка → следующая A-колонка
+
+  // ── 3) Bracket-линии: B-колонка → следующая A-колонка (победители парами)
   for (let p = 0; p < 3; p++) {
     const fromLevel = p;
     const toLevel = p + 1;
-    const fromCol = p * 2 + 1; // B-колонка пары p
-    const toCol = (p + 1) * 2; // A-колонка пары p+1
-    const count = L_COUNTS[fromCol]; // кол-во в B-колонке
-    const x1 = fromCol * LCOL + LCELL; // правый край B
-    const x2 = toCol * LCOL;           // левый край A следующей пары
+    const fromCol = p * 2 + 1;
+    const toCol = (p + 1) * 2;
+    const count = L_COUNTS[fromCol];
+    const x1 = fromCol * LCOL + LCELL;
+    const x2 = toCol * LCOL;
     const mx = (x1 + x2) / 2;
     for (let i = 0; i < count; i += 2) {
       const cy1 = lCenterY(fromLevel, i);
@@ -167,26 +213,53 @@ function LowerBracketSVG() {
       );
     }
   }
-  // 3) Линия от финальной G/H пары (уровень 3, 2 ячейки в B-col) → победитель
-  const finalLevel = 3;
-  const finalFromCol = 7;
-  const finalToCol = 8;
-  const x1f = finalFromCol * LCOL + LCELL;
-  const x2f = finalToCol * LCOL;
-  const mxf = (x1f + x2f) / 2;
-  const cy1f = lCenterY(finalLevel, 0);
-  const cy2f = lCenterY(finalLevel, 1);
-  const myf = (cy1f + cy2f) / 2;
-  const wyf = lCenterY(finalLevel, 0) + (lCenterY(finalLevel, 1) - lCenterY(finalLevel, 0)) / 2;
-  els.push(
-    <g key="final-winner" stroke="rgba(220,38,38,0.4)" strokeWidth="1" fill="none">
-      <polyline points={`${x1f},${cy1f} ${mxf},${cy1f} ${mxf},${cy2f} ${x1f},${cy2f}`} />
-      <line x1={mxf} y1={myf} x2={x2f} y2={wyf} />
-    </g>
-  );
+
+  // ── 4) Линия от финальной пары (col 6,7) → победитель
+  {
+    const finalLevel = 3;
+    const x1f = 7 * LCOL + LCELL;
+    const x2f = 8 * LCOL;
+    const mxf = (x1f + x2f) / 2;
+    const cy1f = lCenterY(finalLevel, 0);
+    const cy2f = lCenterY(finalLevel, 1);
+    const myf = (cy1f + cy2f) / 2;
+    const wyf = myf;
+    els.push(
+      <g key="final-winner" stroke="rgba(220,38,38,0.4)" strokeWidth="1" fill="none">
+        <polyline points={`${x1f},${cy1f} ${mxf},${cy1f} ${mxf},${cy2f} ${x1f},${cy2f}`} />
+        <line x1={mxf} y1={myf} x2={x2f} y2={wyf} />
+      </g>
+    );
+  }
+
+  // ── 5) Линии «падения» из верхней сетки: A-колонки 2, 4, 6
+  //        Каждая чётная ячейка в этих колонках — команда из верхней сетки.
+  //        От неё идёт вертикальная линия строго вверх (90°).
+  for (const col of [2, 4, 6]) {
+    const level = L_LEVELS[col] as number;
+    const count = L_COUNTS[col];
+    const cellLeftX = col * LCOL;
+    for (let i = 0; i < count; i++) {
+      const cellTopY = lTopY(level, i);
+      const lineX = cellLeftX + 5; // небольшой отступ от левого края ячейки
+      els.push(
+        <line key={`drop-${col}-${i}`}
+          x1={lineX} y1={cellTopY}
+          x2={lineX} y2={cellTopY - DROP_LINE}
+          stroke="rgba(220,38,38,0.55)" strokeWidth="1"
+          strokeDasharray="2,2"
+        />
+      );
+    }
+  }
 
   return (
-    <svg className="absolute inset-0 pointer-events-none" width={L_TOTAL_W} height={L_TOTAL_H}>
+    <svg
+      className="absolute pointer-events-none"
+      style={{ left: 0, top: 0, overflow: "visible" }}
+      width={L_TOTAL_W}
+      height={L_TOTAL_H}
+    >
       {els}
     </svg>
   );
@@ -199,13 +272,11 @@ function LowerBracket() {
       {Array.from({ length: L_NCOLS }).map((_, col) => {
         const level = L_LEVELS[col];
         const count = L_COUNTS[col];
-        const isA = col % 2 === 0; // A-колонка (левая в паре)
+        const isA = col % 2 === 0;
         return (
           <div key={col} className="absolute top-0" style={{ left: col * LCOL }}>
             {Array.from({ length: count }).map((_, i) => {
-              let label = "";
-              if (col === 0) label = LOWER_COL0_TEAMS[i] ?? "";
-              if (col === 1) label = LOWER_COL1_TEAMS[i] ?? "";
+              const label = LOWER_COL[col]?.[i] ?? "";
               return (
                 <div
                   key={i}
@@ -228,7 +299,7 @@ function LowerBracket() {
           </div>
         );
       })}
-      {/* Ячейка победителя нижней сетки */}
+      {/* Ячейка победителя */}
       <div
         className="absolute flex items-center px-2 rounded-sm"
         style={{
@@ -241,13 +312,13 @@ function LowerBracket() {
           borderLeft: "2px solid rgba(239,68,68,0.8)",
         }}
       >
-        <span className="text-white font-bold truncate" style={{ fontSize: 8 }}></span>
+        <span className="text-white font-bold truncate" style={{ fontSize: 8 }}>{LOWER_WINNER}</span>
       </div>
     </div>
   );
 }
 
-// ============ ГРАНД ФИНАЛ — два победителя ============
+// ============ ГРАНД ФИНАЛ ============
 function GrandFinal() {
   return (
     <div className="flex flex-col items-center" style={{ marginTop: 36 }}>
@@ -286,7 +357,6 @@ function WinnerCell({ label }: { label: string }) {
         overflow: "hidden",
       }}
     >
-      {/* Логотип анкх как фон ровно по размеру */}
       <img
         src={ankhImg}
         style={{
@@ -300,7 +370,6 @@ function WinnerCell({ label }: { label: string }) {
           padding: 16,
         }}
       />
-      {/* Текст команды-победителя */}
       <div
         className="relative z-10 w-full text-center"
         style={{
@@ -334,7 +403,7 @@ export function BracketPage({ onBack: _ }: { onBack: () => void }) {
 
       <div className="relative z-10" style={{ padding: "20px 32px 60px", minWidth: 1000 }}>
 
-        {/* ─── ВЕРХНЯЯ СЕТКА ─── */}
+        {/* ВЕРХНЯЯ СЕТКА */}
         <div className="mb-1">
           <div className="font-bold mb-2" style={{ fontSize: 10, letterSpacing: "3px", fontFamily: "monospace", color: "rgba(255,255,255,0.7)", borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: 5 }}>
             ВЕРХНЯЯ СЕТКА
@@ -351,7 +420,7 @@ export function BracketPage({ onBack: _ }: { onBack: () => void }) {
           </div>
         </div>
 
-        {/* ─── НИЖНЯЯ СЕТКА ─── */}
+        {/* НИЖНЯЯ СЕТКА */}
         <div style={{ marginTop: 32 }}>
           <div className="font-bold mb-2" style={{ fontSize: 10, letterSpacing: "3px", fontFamily: "monospace", color: "rgba(239,68,68,0.85)", borderBottom: "1px solid rgba(239,68,68,0.2)", paddingBottom: 5 }}>
             НИЖНЯЯ СЕТКА
@@ -363,12 +432,12 @@ export function BracketPage({ onBack: _ }: { onBack: () => void }) {
               </div>
             ))}
           </div>
-          <div style={{ overflowX: "auto" }}>
+          <div style={{ overflowX: "auto", paddingLeft: 12 }}>
             <LowerBracket />
           </div>
         </div>
 
-        {/* ─── ГРАНД ФИНАЛ ─── */}
+        {/* ГРАНД ФИНАЛ */}
         <GrandFinal />
       </div>
     </div>
